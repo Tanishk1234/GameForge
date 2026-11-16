@@ -1263,6 +1263,148 @@
         .gf-project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.gf-project-card{min-width:0}.gf-manual-section{margin-bottom:9px}.gf-manual-section summary{list-style:none}.gf-manual-section summary::-webkit-details-marker{display:none}.gf-manual-section[open]{border-color:var(--accent-dim)}
         @media(max-width:700px){.top-actions{gap:4px;flex-wrap:wrap}.top-actions button{font-size:10px;padding:6px}.gf-project-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr!important}.content-area{padding:12px!important}}
     </style>
+
+<style id="gameforge-monochrome-ux">
+:root {
+ --bg:#080808; --surface:#111111; --surface2:#171717; --surface3:#202020;
+ --border:#292929; --border2:#3b3b3b; --text:#f5f5f5; --text2:#c9c9c9;
+ --text3:#929292; --muted:#707070; --accent:#f2f2f2; --accent2:#ffffff;
+ --accent-dim:#777777; --success:#e7e7e7; --success-bg:#202020;
+ --warning:#d7d7d7; --warning-bg:#242424; --danger:#f0f0f0; --danger-bg:#2b2b2b;
+ --info:#e2e2e2; --info-bg:#222222; --purple:#d8d8d8; --purple-bg:#222222;
+ --radius:10px; --radius-sm:7px; --radius-lg:14px;
+ --shadow:0 4px 16px rgba(0,0,0,.22); --shadow-lg:0 12px 36px rgba(0,0,0,.38);
+ --transition:180ms cubic-bezier(.2,.7,.2,1);
+}
+[data-theme="light"] {
+ --bg:#f7f7f7; --surface:#fff; --surface2:#f0f0f0; --surface3:#e6e6e6;
+ --border:#dedede; --border2:#c9c9c9; --text:#101010; --text2:#333;
+ --text3:#666; --muted:#888; --accent:#111; --accent2:#000; --accent-dim:#777;
+ --success:#222; --success-bg:#e9e9e9; --warning:#222; --warning-bg:#eee;
+ --danger:#111; --danger-bg:#e7e7e7; --info:#111; --info-bg:#ececec;
+ --purple:#111; --purple-bg:#ececec;
+}
+body { font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; letter-spacing:.005em; }
+button,.btn,.nav-item,.card,[class*="-card"],[class*="panel"],.modal-content,.inspector {
+ transition:background-color var(--transition),border-color var(--transition),color var(--transition),box-shadow var(--transition),transform var(--transition),opacity var(--transition);
+}
+.card,[class*="-card"],.panel,.modal-content,.inspector {
+ border-radius:var(--radius); border-color:var(--border); box-shadow:0 1px 0 rgba(255,255,255,.025);
+}
+.card { background:linear-gradient(145deg,var(--surface2),var(--surface)); padding:16px 18px; }
+.card:hover,[class*="-card"]:hover { border-color:var(--border2); box-shadow:var(--shadow); transform:translateY(-1px); }
+.card-title { font-size:14px; font-weight:650; letter-spacing:-.015em; }
+.badge { border:1px solid var(--border2); background:var(--surface3); color:var(--text2); border-radius:999px; letter-spacing:.035em; }
+button,.btn { border-radius:7px; }
+button:hover,.btn:hover { filter:brightness(1.12); }
+input,textarea,select { border-radius:8px; border-color:var(--border2); }
+input:focus,textarea:focus,select:focus { border-color:var(--text3); box-shadow:0 0 0 2px rgba(255,255,255,.055); }
+.sidebar-nav .nav-item { border-radius:7px; margin:2px 7px; }
+.sidebar-nav .nav-item:hover { background:var(--surface3); transform:translateX(2px); }
+.content-area { padding:clamp(12px,2vw,24px); }
+.toast { border:1px solid var(--border2); border-radius:9px; box-shadow:var(--shadow-lg); }
+.modal-content { box-shadow:var(--shadow-lg); }
+@keyframes gfFadeIn { from {opacity:0;transform:translateY(5px)} to {opacity:1;transform:translateY(0)} }
+@keyframes gfSoftAppear { from {opacity:0} to {opacity:1} }
+#viewContainer > * { animation:gfFadeIn 220ms ease-out both; }
+.card,[class*="-card"] { animation:gfSoftAppear 180ms ease-out both; }
+:focus-visible { outline:2px solid var(--text2); outline-offset:2px; }
+@media (max-width:700px) {
+ .content-area { padding:10px; }
+ .card,[class*="-card"] { padding:12px; border-radius:9px; }
+}
+@media (prefers-reduced-motion:reduce) {
+ *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; }
+}
+</style>
+
+
+<style id="gameforge-smoothness-polish">
+/* Smoothness pass: avoid re-triggering animations on every state rerender */
+:root {
+  --gf-motion-fast: 140ms;
+  --gf-motion: 220ms;
+  --gf-motion-slow: 300ms;
+  --gf-ease: cubic-bezier(.22, .61, .36, 1);
+  --gf-ease-out: cubic-bezier(.16, 1, .3, 1);
+}
+html { scroll-behavior: smooth; }
+body, button, input, textarea, select, .sidebar, .topbar, .content-area,
+.card, [class*="-card"], .panel, .modal-content, .inspector, .nav-item {
+  transition-timing-function: var(--gf-ease);
+}
+button, .btn, .btn-icon, .top-actions button, .sidebar-nav .nav-item,
+.tab, [role="tab"], .card, [class*="-card"], .panel {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button, .btn, .btn-icon, .top-actions button {
+  transition:
+    background-color var(--gf-motion-fast) var(--gf-ease),
+    color var(--gf-motion-fast) var(--gf-ease),
+    border-color var(--gf-motion-fast) var(--gf-ease),
+    box-shadow var(--gf-motion-fast) var(--gf-ease),
+    transform var(--gf-motion-fast) var(--gf-ease),
+    opacity var(--gf-motion-fast) var(--gf-ease),
+    filter var(--gf-motion-fast) var(--gf-ease);
+}
+button:active, .btn:active, .btn-icon:active, .top-actions button:active {
+  transform: scale(.975);
+  filter: brightness(.96);
+}
+.card, [class*="-card"], .panel, .modal-content, .inspector {
+  transition:
+    background-color var(--gf-motion) var(--gf-ease),
+    border-color var(--gf-motion) var(--gf-ease),
+    box-shadow var(--gf-motion) var(--gf-ease),
+    transform var(--gf-motion) var(--gf-ease);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+/* Gentle hover only on devices with a real pointer */
+@media (hover:hover) and (pointer:fine) {
+  .card:hover, [class*="-card"]:hover, .panel:hover {
+    transform: translateY(-2px);
+    border-color: #555;
+    box-shadow: 0 8px 22px rgba(0,0,0,.24);
+  }
+  .sidebar-nav .nav-item:hover, .tab:hover, [role="tab"]:hover {
+    transform: translateX(2px);
+    background-color: #242424;
+  }
+  button:hover, .btn:hover { filter: brightness(1.07); }
+}
+/* Active tab stays stable; don't shift the layout when selected */
+.sidebar-nav .nav-item.active {
+  transform: none;
+  background: #292929;
+  box-shadow: inset 2px 0 0 #f2f2f2;
+}
+.sidebar-nav .nav-item {
+  transition: background-color var(--gf-motion) var(--gf-ease),
+              color var(--gf-motion) var(--gf-ease),
+              box-shadow var(--gf-motion) var(--gf-ease),
+              transform var(--gf-motion) var(--gf-ease);
+}
+/* Remove entry animations that were restarting on every render and causing jitter */
+#viewContainer > * { animation: none !important; }
+.card, [class*="-card"] { animation: none !important; }
+/* Keep scrolling composited and reduce accidental paint-heavy effects */
+.content-area, .sidebar-nav, #viewContainer {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+:focus-visible { outline: 2px solid #bdbdbd; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
     <div class="app-container" data-theme="dark">
@@ -1281,8 +1423,8 @@
                 <div class="nav-item active" data-view="dashboard"><span class="nav-icon">⌂</span> Dashboard</div>
                 <div class="nav-item" data-view="roadmap"><span class="nav-icon">⟳</span> Roadmap</div>
                 <div class="nav-item" data-view="kanban"><span class="nav-icon">▦</span> Kanban Board</div>
-                <div class="nav-item" data-view="systems"><span class="nav-icon">⚙</span> Systems</div>
-                <div class="nav-item" data-view="tasks"><span class="nav-icon">✓</span> Tasks</div>
+                <div class="nav-item" data-view="systems"><span class="nav-icon"></span> Systems</div>
+                <div class="nav-item" data-view="tasks"><span class="nav-icon"></span> Tasks</div>
                 <div class="nav-section">Documentation</div>
                 <div class="nav-item" data-view="scripts"><span class="nav-icon">{} </span> Scripts</div>
                 <div class="nav-item" data-view="gameobjects"><span class="nav-icon">◇</span> GameObjects</div>
@@ -1290,39 +1432,39 @@
                 <div class="nav-item" data-view="scenes"><span class="nav-icon">▤</span> Scenes</div>
                 <div class="nav-item" data-view="architecture"><span class="nav-icon">↗</span> Architecture</div>
                 <div class="nav-section">Development</div>
-                <div class="nav-item" data-view="bugs"><span class="nav-icon">⚠</span> Bugs</div>
-                <div class="nav-item" data-view="decisions"><span class="nav-icon">⚖</span> Decisions</div>
-                <div class="nav-item" data-view="journal"><span class="nav-icon">📓</span> Journal</div>
+                <div class="nav-item" data-view="bugs"><span class="nav-icon"></span> Bugs</div>
+                <div class="nav-item" data-view="decisions"><span class="nav-icon"></span> Decisions</div>
+                <div class="nav-item" data-view="journal"><span class="nav-icon"></span> Journal</div>
                 <div class="nav-item" data-view="checkpoints"><span class="nav-icon">◉</span> Checkpoints</div>
-                <div class="nav-item" data-view="milestones"><span class="nav-icon">★</span> Milestones</div>
+                <div class="nav-item" data-view="milestones"><span class="nav-icon"></span> Milestones</div>
                 <div class="nav-section">Project</div>
-                <div class="nav-item" data-view="memory"><span class="nav-icon">🧠</span> Project Memory</div>
-                <div class="nav-item" data-view="gdd"><span class="nav-icon">📄</span> Game Design</div>
-                <div class="nav-item" data-view="folder"><span class="nav-icon">📁</span> Unity Structure</div>
-                <div class="nav-item" data-view="docs"><span class="nav-icon">📚</span> Docs</div>
-                <div class="nav-item" data-view="settings"><span class="nav-icon">⚙</span> Settings</div>
+                <div class="nav-item" data-view="memory"><span class="nav-icon"></span> Project Memory</div>
+                <div class="nav-item" data-view="gdd"><span class="nav-icon"></span> Game Design</div>
+                <div class="nav-item" data-view="folder"><span class="nav-icon"></span> Unity Structure</div>
+                <div class="nav-item" data-view="docs"><span class="nav-icon"></span> Docs</div>
+                <div class="nav-item" data-view="settings"><span class="nav-icon"></span> Settings</div>
                 <div class="nav-section">Learning</div>
-                <div class="nav-item" data-view="manual"><span class="nav-icon">📖</span> User Manual</div>
+                <div class="nav-item" data-view="manual"><span class="nav-icon"></span> User Manual</div>
             </nav>
             <div class="sidebar-footer">
-                <button onclick="exportProject()">📤 Export Project</button>
-                <button onclick="importProject()">📥 Import Project</button>
-                <button onclick="showResetModal()">🔄 Reset</button>
-                <button onclick="loadDemoProject()">📦 Load Demo</button>
+                <button onclick="exportProject()"> Export Project</button>
+                <button onclick="importProject()"> Import Project</button>
+                <button onclick="showResetModal()"> Reset</button>
+                <button onclick="loadDemoProject()"> Load Demo</button>
             </div>
         </aside>
 
         <div class="main-content">
             <div class="top-bar">
-                <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar">☰</button>
+                <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle sidebar"></button>
                 <div class="breadcrumb" id="breadcrumb">Dashboard</div>
                 <div class="top-actions">
-                    <span class="save-indicator" id="saveIndicator">Saved ✓</span>
+                    <span class="save-indicator" id="saveIndicator">Saved </span>
                     <button onclick="navigate('projects')" title="Manage multiple projects">▣ Projects</button>
                     <button onclick="openGlobalCreate()" style="background:var(--accent);color:#000;font-weight:600;">+ CREATE</button>
                     <button onclick="openCommandPalette()" title="Ctrl+K">⌘K</button>
-                    <button onclick="toggleTheme()" id="themeToggle" title="Toggle theme">🌙</button>
-                    <button onclick="openWhereWasI()" title="Where was I?">📍</button>
+                    <button onclick="toggleTheme()" id="themeToggle" title="Toggle theme"></button>
+                    <button onclick="openWhereWasI()" title="Where was I?"></button>
                     <button class="help-button" onclick="openGameForgeHelp()" title="Get ChatGPT help for this tab">? Help</button>
                     <button onclick="startSession()" title="Start session">▶</button>
                 </div>
@@ -1361,8 +1503,10 @@
         let storageBackend = 'memory';
 
         function safeStorageGet(key) {
-            try { const v = window.localStorage.getItem(key); if (v !== null) { storageBackend='localStorage'; return v; } } catch (_) {}
+            // A session fallback may be newer than an older localStorage snapshot
+            // after the browser reports quota exceeded. Prefer that current-tab copy.
             try { const v = window.sessionStorage.getItem(key); if (v !== null) { storageBackend='sessionStorage'; return v; } } catch (_) {}
+            try { const v = window.localStorage.getItem(key); if (v !== null) { storageBackend='localStorage'; return v; } } catch (_) {}
             try {
                 const prefix='__GAMEFORGE__';
                 if ((window.name||'').startsWith(prefix)) {
@@ -1374,20 +1518,15 @@
         }
 
         function safeStorageSet(key, value) {
-            try { window.localStorage.setItem(key,value); storageBackend='localStorage'; return true; } catch (_) {}
-            try { window.sessionStorage.setItem(key,value); storageBackend='sessionStorage'; return true; } catch (_) {}
-            try {
-                const prefix='__GAMEFORGE__';
-                let data={};
-                if ((window.name||'').startsWith(prefix)) data=JSON.parse(window.name.slice(prefix.length))||{};
-                data[key]=value;
-                window.name=prefix+JSON.stringify(data);
-                storageBackend='window.name';
-                return true;
-            } catch (_) {}
+            // Do not put large project databases in window.name: browsers impose
+            // practical URL/session limits and repeatedly copying it can freeze tabs.
+            let lastError = null;
+            try { window.localStorage.setItem(key, value); try{window.sessionStorage.removeItem(key);}catch(_){} storageBackend='localStorage'; return true; } catch (e) { lastError=e; }
+            try { window.sessionStorage.setItem(key, value); storageBackend='sessionStorage'; return true; } catch (e) { lastError=e; }
             memoryStorage[key]=value;
             storageBackend='memory';
-            return true;
+            if (lastError) console.warn('Persistent browser storage unavailable or full; data is session-only until exported.', lastError);
+            return false;
         }
 
         let state = loadState();
@@ -1542,9 +1681,18 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         }
         function persistProjectLibrary() {
             const active = projectLibrary.projects.find(p=>p.id===currentProjectId);
-            if (active) { active.name=state.project.name || active.name; active.snapshot=normalizeState(state); active.updatedAt=new Date().toISOString(); }
+            if (active) {
+                active.name=String(state.project.name || active.name || 'Untitled Project');
+                // State is normalized at load/import boundaries. Re-normalizing every
+                // entity on every keystroke/save was a major source of UI stalls.
+                active.snapshot=state;
+                active.updatedAt=new Date().toISOString();
+            }
             projectLibrary.activeId=currentProjectId;
-            safeStorageSet(PROJECTS_KEY, JSON.stringify(projectLibrary));
+            const payload=JSON.stringify(projectLibrary);
+            const written=safeStorageSet(PROJECTS_KEY, payload);
+            const ok=written && storageBackend==='localStorage';
+            return {ok, written, bytes:payload.length};
         }
         function switchProject(id) {
             if (id===currentProjectId) return;
@@ -1603,25 +1751,37 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             return normalizeState(defaultState());
         }
 
+        let gfLastSaveAt=0, gfLastSaveBytes=0, gfSaveFailed=false;
         function saveState() {
             try {
-                state=normalizeState(state);
                 state.project.updatedAt=new Date().toISOString();
-                const ok=safeStorageSet(STORAGE_KEY,JSON.stringify(state));
-                if (typeof projectLibrary !== 'undefined') persistProjectLibrary();
+                let ok=false;
+                if (typeof projectLibrary !== 'undefined') {
+                    const result=persistProjectLibrary(); ok=!!result.ok; gfLastSaveBytes=result.bytes||0;
+                } else {
+                    const payload=JSON.stringify(state); gfLastSaveBytes=payload.length;
+                    ok=safeStorageSet(STORAGE_KEY,payload);
+                }
+                gfLastSaveAt=Date.now(); gfSaveFailed=!ok;
                 const indicator=document.getElementById('saveIndicator');
-                if(indicator){indicator.textContent=ok?'Saved ✓':'Session only';indicator.classList.add('visible');setTimeout(()=>indicator.classList.remove('visible'),2000);}
+                if(indicator){indicator.textContent=ok?'Saved ':'Session only — export backup';indicator.classList.add('visible');}
+                if(!ok) showToast(storageBackend==='sessionStorage'?'Saved for this browser tab only. Export a JSON backup before closing it.':'Browser storage is unavailable or full. Changes may be memory-only; export a project backup now.','error');
                 return ok;
             } catch(e) {
-                console.error('Save failed:',e);
-                showToast('Saved for this session. Export JSON for a permanent backup.','info');
-                return true;
+                gfSaveFailed=true; console.error('Save failed:',e);
+                showToast('SAVE FAILED. Your latest changes may only exist in memory. Export/backup immediately.','error');
+                return false;
             }
         }
 
         function saveStateSilent() {
-            try { state=normalizeState(state); state.project.updatedAt=new Date().toISOString(); const ok=safeStorageSet(STORAGE_KEY,JSON.stringify(state)); if (typeof projectLibrary !== 'undefined') persistProjectLibrary(); return ok; }
-            catch(e){ console.error('Silent save failed:',e); return false; }
+            try {
+                state.project.updatedAt=new Date().toISOString();
+                let ok=false;
+                if (typeof projectLibrary !== 'undefined') ok=!!persistProjectLibrary().ok;
+                else ok=safeStorageSet(STORAGE_KEY,JSON.stringify(state));
+                gfSaveFailed=!ok; gfLastSaveAt=Date.now(); return ok;
+            } catch(e){ gfSaveFailed=true; console.error('Silent save failed:',e); return false; }
         }
 
         // ============================================
@@ -1656,11 +1816,11 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             return Math.round(progress / totalWeight);
         }
 
-        function calculateSystemProgress(system) {
+        function calculateSystemProgress(system, indexed) {
             if (!system) return 0;
-            const sysTasks = state.tasks.filter(t => (t.systems || [t.system]).includes(system.id));
-            const sysScripts = state.scripts.filter(s => s.system === system.id);
-            const sysGOs = state.gameObjects.filter(g => g.system === system.id);
+            const sysTasks = indexed?.tasks || state.tasks.filter(t => (t.systems || [t.system]).includes(system.id));
+            const sysScripts = indexed?.scripts || state.scripts.filter(s => s.system === system.id);
+            const sysGOs = indexed?.gameObjects || state.gameObjects.filter(g => g.system === system.id);
 
             let progress = 0, totalWeight = 0;
 
@@ -1842,8 +2002,8 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
 
         function getDependencyTypeIcon(type) {
             const icons = {
-                system: '⚙', script: '{}', task: '✓', phase: '⟳',
-                gameObject: '◇', prefab: '▣', scene: '▤', milestone: '★', bug: '⚠'
+                system: '', script: '{}', task: '', phase: '⟳',
+                gameObject: '◇', prefab: '▣', scene: '▤', milestone: '', bug: ''
             };
             return icons[type] || '?';
         }
@@ -1911,18 +2071,35 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             return results;
         }
 
-        // Get progress % for any dependency (used in progress calc)
+        // Get progress % for any dependency. Guard against circular dependency graphs
+        // (for example System A depends on System B, while System B depends on A).
+        // A repeated node contributes 0 for that edge rather than recursing forever.
+        const __progressDependencyStack = new Set();
         function getEntityProgress(dep) {
             if (typeof dep === 'string') dep = { id: dep, type: 'task' };
+            if (!dep || dep.id == null) return 0;
+            const type = dep.type || 'task';
+            const key = String(type) + ':' + String(dep.id);
+            if (__progressDependencyStack.has(key)) {
+                console.warn('[GameForge] Circular dependency detected while calculating progress:', key);
+                return 0;
+            }
             const e = getDependencyEntity(dep);
             if (!e) return 0;
-            const type = dep.type;
-            if (type === 'task') return calculateTaskProgress(e);
-            if (type === 'system') return calculateSystemProgress(e);
-            if (type === 'script') return calculateScriptProgress(e);
-            if (type === 'phase') return calculatePhaseProgress(e);
-            if (type === 'milestone') return calculateMilestoneProgress(e);
-            return calculateTodoProgress(e.todos || []);
+            __progressDependencyStack.add(key);
+            try {
+                if (type === 'task') return calculateTaskProgress(e);
+                if (type === 'system') return calculateSystemProgress(e);
+                if (type === 'script') return calculateScriptProgress(e);
+                if (type === 'phase') return calculatePhaseProgress(e);
+                if (type === 'milestone') return calculateMilestoneProgress(e);
+                return calculateTodoProgress(e.todos || []);
+            } catch (error) {
+                console.error('[GameForge] Dependency progress calculation failed:', key, error);
+                return 0;
+            } finally {
+                __progressDependencyStack.delete(key);
+            }
         }
 
         function getStatusBadge(status) {
@@ -1991,6 +2168,8 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             const bc = document.getElementById('breadcrumb');
             const names = {
                 projects: 'Project Library',
+                analytics: 'Project Analytics',
+                calendar: 'Development Calendar',
                 manual: 'User Manual',
                 dashboard: 'Dashboard',
                 roadmap: 'Roadmap',
@@ -2086,7 +2265,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             assistant.className = 'tab-ai-assistant';
             assistant.innerHTML = `
                 <div class="tab-ai-header">
-                    <div class="tab-ai-title"><span class="ai-icon">✦</span> GameForge AI Help</div>
+                    <div class="tab-ai-title"><span class="ai-icon"></span> GameForge AI Help</div>
                     <button class="tab-ai-help" type="button" onclick="launchTabAI()">? Help</button>
                 </div>
                 <div class="tab-ai-description">${escHtml(description)}</div>
@@ -2249,7 +2428,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
                     <button class="btn btn-primary" onclick="continueDevelopment()">▶ Continue Development</button>
-                    <button class="btn btn-secondary" onclick="openWhereWasI()">📍 Where Was I?</button>
+                    <button class="btn btn-secondary" onclick="openWhereWasI()"> Where Was I?</button>
                     <button class="btn btn-secondary" onclick="openCheckpointModal()">◉ Save Checkpoint</button>
                     <button class="btn btn-secondary" onclick="openGameForgeHelp('dashboard')" style="border-color:rgba(179,136,255,0.35);color:var(--purple);">? Ask ChatGPT for Help</button>
                 </div>
@@ -2311,7 +2490,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                         <p style="color:var(--text3);font-size:12px;margin-bottom:4px;">${escHtml(lastCheckpoint.date)}</p>
                         <p style="font-weight:500;">${escHtml(lastCheckpoint.workingOn || '—')}</p>
                         <p style="color:var(--text3);font-size:12px;margin-top:4px;">Next: ${escHtml(lastCheckpoint.nextSessionStart || '—')}</p>
-                        ${lastCheckpoint.knownBugs && lastCheckpoint.knownBugs.length>0 ? `<p style="color:var(--danger);font-size:12px;margin-top:4px;">⚠ ${lastCheckpoint.knownBugs.length} known bug(s)</p>` : ''}
+                        ${lastCheckpoint.knownBugs && lastCheckpoint.knownBugs.length>0 ? `<p style="color:var(--danger);font-size:12px;margin-top:4px;"> ${lastCheckpoint.knownBugs.length} known bug(s)</p>` : ''}
                     ` : '<p style="color:var(--text3);margin-top:6px;">No checkpoints saved yet.</p>'}
                 </div>
             </div>
@@ -2368,11 +2547,11 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 const incompleteDeps = getIncompleteDeps(phase);
                 html += `
                 <div class="card" style="display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="openPhaseModal('${phase.id}')">
-                    <div style="font-size:20px;color:${phase.status==='done'?'var(--success)':phase.status==='in-progress'?'var(--accent)':'var(--text3)'};">${phase.status==='done'?'✓':phase.status==='in-progress'?'→':'○'}</div>
+                    <div style="font-size:20px;color:${phase.status==='done'?'var(--success)':phase.status==='in-progress'?'var(--accent)':'var(--text3)'};">${phase.status==='done'?'':phase.status==='in-progress'?'→':'○'}</div>
                     <div style="flex:1;min-width:0;">
                         <div style="font-weight:600;font-size:13px;">${escHtml(phase.name)}</div>
                         <div style="font-size:11px;color:var(--text3);">${total} task(s) · ${done} done${deps.length>0 ? ` · depends on ${deps.length}` : ''}${dependents.length>0 ? ` · used by ${dependents.length}` : ''}</div>
-                        ${incompleteDeps.length > 0 ? `<div style="font-size:10px;color:var(--danger);">⚠ blocked by: ${incompleteDeps.map(b=>escHtml(getEntityDisplayName(b.entity))).join(', ')}</div>` : ''}
+                        ${incompleteDeps.length > 0 ? `<div style="font-size:10px;color:var(--danger);"> blocked by: ${incompleteDeps.map(b=>escHtml(getEntityDisplayName(b.entity))).join(', ')}</div>` : ''}
                         ${dependents.length > 0 ? `<div style="font-size:10px;color:var(--info);margin-top:2px;">${dependents.map(d=>getDependencyTypeIcon(d.type)+' '+escHtml(getEntityDisplayName(d.entity))).join(' · ')}</div>` : ''}
                     </div>
                     <div style="width:100px;">
@@ -2472,17 +2651,18 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         <div class="kanban-board">
         `;
         statuses.forEach(status => {
-            const statusTasks = tasks.filter(t => t.status === status);
+            const allStatusTasks = tasks.filter(t => t.status === status);
+            const statusTasks = allStatusTasks.slice(0,100);
             html += `
             <div class="kanban-column" data-status="${status}">
                 <div class="kanban-column-header">
                     <span>${statusLabels[status]}</span>
-                    <span class="count">${statusTasks.length}</span>
+                    <span class="count">${allStatusTasks.length}</span>
                 </div>
                 <div class="kanban-column-body" ondragover="kanbanDragOver(event)" ondragleave="kanbanDragLeave(event)" ondrop="kanbanDrop(event,'${status}')">
                     ${statusTasks.map(task => {
                         const check = canMarkTaskDone(task);
-                        const warnIcon = status === 'done' && !check.can ? '⚠' : '';
+                        const warnIcon = status === 'done' && !check.can ? '' : '';
                         const deps = task.dependencies || [];
                         const incomplete = getIncompleteDeps(task);
                         const est = task.estimatedHours || 0;
@@ -2498,13 +2678,14 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                             </div>
                             <div class="kc-deps">
                                 ${phase ? `<span>⟳ ${escHtml(phase.name)}</span>` : ''}
-                                ${deps.length > 0 ? `<span style="color:${incomplete.length===0?'var(--success)':'var(--danger)'};">🔗 ${deps.length-incomplete.length}/${deps.length} ready</span>` : ''}
-                                ${incomplete.length > 0 ? `<span title="Blocked by: ${incomplete.map(b=>escHtml(getEntityDisplayName(b.entity))).join(', ')}">⚠ ${incomplete.length}</span>` : ''}
+                                ${deps.length > 0 ? `<span style="color:${incomplete.length===0?'var(--success)':'var(--danger)'};"> ${deps.length-incomplete.length}/${deps.length} ready</span>` : ''}
+                                ${incomplete.length > 0 ? `<span title="Blocked by: ${incomplete.map(b=>escHtml(getEntityDisplayName(b.entity))).join(', ')}"> ${incomplete.length}</span>` : ''}
                                 ${est > 0 ? `<span>⏱ ${logged.toFixed(1)}/${est.toFixed(1)}h</span>` : ''}
                             </div>
                             <div class="progress-bar" style="margin-top:4px;"><div class="progress-fill ${calculateTaskProgress(task)===100?'success':''}" style="width:${calculateTaskProgress(task)}%;"></div></div>
                         </div>`;
                     }).join('')}
+                    ${allStatusTasks.length>statusTasks.length?`<div class="help-intro">Showing 100 of ${allStatusTasks.length}. Use search or filters to narrow this column.</div>`:''}
                 </div>
             </div>
             `;
@@ -2522,7 +2703,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
     }
 
         function kanbanSearch(val) { selectedKanbanFilter.search = val;
-            renderView(); }
+            renderView(); const input=document.querySelector('.kanban-board')?.parentElement?.querySelector('input[placeholder="Search..."]'); if(input){input.focus();try{input.setSelectionRange(val.length,val.length);}catch(_){}} }
 
         function kanbanFilterSystem(val) { selectedKanbanFilter.system = val;
             renderView(); }
@@ -2587,62 +2768,48 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         // ============================================
         // SYSTEMS
         // ============================================
+        let gfSystemPage=1;
+        const GF_SYSTEM_PAGE_SIZE=48;
+        function gfSystemSearch(value){
+            gfSystemPage=1; renderSystems(document.getElementById('contentArea'));
+            const next=document.getElementById('gfSystemSearch');
+            if(next){next.focus();try{next.setSelectionRange(value.length,value.length);}catch(_){}}
+        }
+        function gfSystemShowMore(){ gfSystemPage++; renderSystems(document.getElementById('contentArea')); }
         function renderSystems(area) {
-            let html = `
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                <h2 style="font-size:18px;font-weight:600;">Game Systems</h2>
-                <button class="btn btn-primary" onclick="openSystemModal()">+ Create System</button>
-            </div>
-            `;
-            if (state.systems.length === 0) {
-                html += `
-                <div class="empty-state">
-                    <div class="empty-icon">⚙</div>
-                    <p class="empty-text">No systems created yet. Systems are major game modules like Combat, Inventory, or World Generation.</p>
-                    <button class="btn btn-primary" onclick="openSystemModal()">+ Create System</button>
-                </div>`;
-            } else {
-                html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;">';
-                state.systems.forEach(system => {
-                    const sysTasks = state.tasks.filter(t => (t.systems || []).includes(system.id));
-                    const sysScripts = state.scripts.filter(s => s.system === system.id);
-                    const sysGOs = state.gameObjects.filter(g => g.system === system.id);
-                    const autoProgress = calculateSystemProgress(system);
-                    const est = system.estimatedHours || 0;
-                    const logged = system.loggedHours || 0;
-                    const hoursPct = est > 0 ? Math.round((logged / est) * 100) : 0;
-                    html += `
-                    <div class="card" style="cursor:pointer;" onclick="openSystemModal('${system.id}')">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                            <span style="font-weight:600;font-size:14px;">${escHtml(system.name)}</span>
-                            ${getStatusBadge(system.status)}
-                        </div>
-                        <p style="font-size:12px;color:var(--text3);margin-bottom:8px;">${escHtml(system.description || '')}</p>
-                        <div class="progress-bar" style="margin-bottom:4px;"><div class="progress-fill ${autoProgress===100?'success':''}" style="width:${autoProgress}%;"></div></div>
-                        <div style="font-size:10px;color:var(--text3);margin-bottom:6px;">${autoProgress}% complete (auto-calculated)</div>
-                        <div style="font-size:11px;color:var(--text2);margin-bottom:6px;">⏱ ${logged.toFixed(1)}h / ${est.toFixed(1)}h (${hoursPct}%)</div>
-                        ${sysScripts.length > 0 ? `
-                        <div style="font-size:11px;margin-bottom:4px;"><strong style="color:var(--text2);">Scripts:</strong>
-                            ${sysScripts.map(s=>`<span class="tag" style="font-size:10px;margin:2px;">${escHtml(s.name)}</span>`).join('')}
-                        </div>` : ''}
-                        ${sysGOs.length > 0 ? `
-                        <div style="font-size:11px;margin-bottom:4px;"><strong style="color:var(--text2);">GameObjects:</strong>
-                            ${sysGOs.map(g=>`<span class="tag" style="font-size:10px;margin:2px;">${escHtml(g.name)}</span>`).join('')}
-                        </div>` : ''}
-                        <div style="display:flex;gap:6px;font-size:10px;color:var(--text3);margin-top:4px;">
-                            ${sysTasks.length > 0 ? `<span>${sysTasks.length} task(s)</span>` : ''}
-                            ${(system.dependencies||[]).length > 0 ? `<span>→ ${(system.dependencies||[]).map(d=>escHtml(getEntityDisplayName(getDependencyEntity(typeof d === 'string' ? {id:d,type:'system'} : d)))).join(', ')}</span>` : ''}
-                        </div>
-                        ${(system.todos||[]).length > 0 ? `
-                        <div style="margin-top:6px;font-size:10px;color:var(--text3);">
-                            <strong>Todos:</strong> ${system.todos.filter(t=>t.done).length}/${system.todos.length} done
-                        </div>` : ''}
-                    </div>
-                    `;
-                });
-                html += '</div>';
+            if(!area) return;
+            const systems=Array.isArray(state.systems)?state.systems:[];
+            const taskMap=new Map(), scriptMap=new Map(), goMap=new Map();
+            // Build indexes once instead of scanning every collection once per system.
+            for(const t of (state.tasks||[])) for(const id of (Array.isArray(t.systems)?t.systems:(t.system?[t.system]:[]))){ if(!taskMap.has(id))taskMap.set(id,[]); taskMap.get(id).push(t); }
+            for(const x of (state.scripts||[])){ if(x.system){if(!scriptMap.has(x.system))scriptMap.set(x.system,[]);scriptMap.get(x.system).push(x);} }
+            for(const x of (state.gameObjects||[])){ if(x.system){if(!goMap.has(x.system))goMap.set(x.system,[]);goMap.get(x.system).push(x);} }
+            const q=(document.getElementById('gfSystemSearch')?.dataset.query||'').trim().toLowerCase();
+            const filtered=systems.filter(x=>!q || String(x.name||'').toLowerCase().includes(q) || String(x.description||'').toLowerCase().includes(q));
+            const visible=filtered.slice(0,gfSystemPage*GF_SYSTEM_PAGE_SIZE);
+            let html=`<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px"><div><h2 style="font-size:18px;font-weight:600">Game Systems</h2><small style="color:var(--text3)">${systems.length} total · showing ${visible.length} of ${filtered.length} matching</small></div><button class="btn btn-primary" onclick="openSystemModal()">+ Create System</button></div>
+            <div style="display:flex;gap:8px;margin-bottom:14px"><input id="gfSystemSearch" data-query="${escHtml(q)}" value="${escHtml(q)}" oninput="gfSystemSearch(this.value)" placeholder="Search systems by name or description..." style="width:min(100%,420px)"></div>`;
+            if(!systems.length){ html+=`<div class="empty-state"><div class="empty-icon"></div><p class="empty-text">No systems created yet. Create major modules such as Player, Inventory, Farming or Customer AI.</p><button class="btn btn-primary" onclick="openSystemModal()">+ Create System</button></div>`; area.innerHTML=html; return; }
+            if(!filtered.length){html+='<div class="empty-state"><p class="empty-text">No systems match this search.</p></div>';area.innerHTML=html;return;}
+            html+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px">';
+            for(const system of visible){
+                const sysTasks=taskMap.get(system.id)||[], sysScripts=scriptMap.get(system.id)||[], sysGOs=goMap.get(system.id)||[];
+                const autoProgress=calculateSystemProgress(system,{tasks:sysTasks,scripts:sysScripts,gameObjects:sysGOs});
+                const est=Math.max(0,Number(system.estimatedHours)||0), logged=Math.max(0,Number(system.loggedHours)||0), hoursPct=est>0?Math.round(logged/est*100):0;
+                const deps=Array.isArray(system.dependencies)?system.dependencies:[];
+                const depLabels=deps.slice(0,4).map(d=>escHtml(getEntityDisplayName(getDependencyEntity(typeof d==='string'?{id:d,type:'system'}:d)))).join(', ');
+                html+=`<div class="card" style="cursor:pointer;min-width:0" onclick="openSystemModal('${escHtml(system.id)}')"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px"><span style="font-weight:600;font-size:14px;overflow-wrap:anywhere">${escHtml(system.name)}</span>${getStatusBadge(system.status)}</div>
+                <p style="font-size:12px;color:var(--text3);margin-bottom:8px;overflow-wrap:anywhere">${escHtml(system.description||'')}</p>
+                <div class="progress-bar" style="margin-bottom:4px"><div class="progress-fill ${autoProgress===100?'success':''}" style="width:${Math.max(0,Math.min(100,autoProgress))}%"></div></div><div style="font-size:10px;color:var(--text3);margin-bottom:6px">${autoProgress}% complete · ${sysTasks.length} tasks · ${sysScripts.length} scripts · ${sysGOs.length} GameObjects</div>
+                <div style="font-size:11px;color:var(--text2);margin-bottom:6px">⏱ ${logged.toFixed(1)}h / ${est.toFixed(1)}h (${hoursPct}%)</div>
+                ${sysScripts.length?`<div style="font-size:11px;margin-bottom:4px"><strong>Scripts:</strong> ${sysScripts.slice(0,5).map(x=>`<span class="tag" style="font-size:10px;margin:2px">${escHtml(x.name)}</span>`).join('')}${sysScripts.length>5?`<span class="tag">+${sysScripts.length-5} more</span>`:''}</div>`:''}
+                ${sysGOs.length?`<div style="font-size:11px;margin-bottom:4px"><strong>GameObjects:</strong> ${sysGOs.slice(0,5).map(x=>`<span class="tag" style="font-size:10px;margin:2px">${escHtml(x.name)}</span>`).join('')}${sysGOs.length>5?`<span class="tag">+${sysGOs.length-5} more</span>`:''}</div>`:''}
+                <div style="font-size:10px;color:var(--text3);margin-top:4px">${deps.length?`Depends on: ${depLabels}${deps.length>4?` +${deps.length-4} more`:''}`:'No dependencies recorded'}</div>
+                ${(system.todos||[]).length?`<div style="margin-top:6px;font-size:10px;color:var(--text3)">Todos: ${system.todos.filter(t=>t.done).length}/${system.todos.length} done</div>`:''}</div>`;
             }
-            area.innerHTML = html;
+            html+='</div>';
+            if(visible.length<filtered.length) html+=`<div style="text-align:center;margin:16px"><button class="btn btn-secondary" onclick="gfSystemShowMore()">Load next ${Math.min(GF_SYSTEM_PAGE_SIZE,filtered.length-visible.length)} systems</button></div>`;
+            area.innerHTML=html;
         }
 
         // ============================================
@@ -2656,7 +2823,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
                 <input type="text" placeholder="Filter tasks..." oninput="filterTasks(this.value)" style="width:200px;">
-                <select onchange="filterTasksByStatus(this.value)">
+                <select id="taskStatusFilter" onchange="filterTasksByStatus(this.value)">
                     <option value="">All Statuses</option>
                     <option value="backlog">Backlog</option>
                     <option value="planned">Planned</option>
@@ -2673,6 +2840,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             area.innerHTML = html;
         }
 
+        let gfTaskListLimit=120;
         function renderTaskRows(filter) {
             let tasks = [...state.tasks].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
             if (filter) {
@@ -2683,11 +2851,13 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.tasks.length === 0) {
                 return `
                 <div class="empty-state">
-                    <div class="empty-icon">✓</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No tasks yet. Create your first task to start tracking work.</p>
                     <button class="btn btn-primary" onclick="openTaskModal()">+ Create Task</button>
                 </div>`;
             }
+            const totalMatching=tasks.length;
+            tasks=tasks.slice(0,gfTaskListLimit);
             let html = '<div style="display:flex;flex-direction:column;gap:6px;">';
             tasks.forEach(task => {
                 const autoProgress = calculateTaskProgress(task);
@@ -2696,7 +2866,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 const logged = task.loggedHours || 0;
                 html += `
                 <div class="card" style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="openTaskModal('${task.id}')">
-                    <span style="width:16px;text-align:center;">${task.status==='done'?'✓':task.status==='in-progress'?'→':task.status==='blocked'?'⚠':'○'}</span>
+                    <span style="width:16px;text-align:center;">${task.status==='done'?'':task.status==='in-progress'?'→':task.status==='blocked'?'':'○'}</span>
                     <div style="flex:1;min-width:0;">
                         <div style="font-weight:500;font-size:13px;${task.status==='done'?'text-decoration:line-through;color:var(--text3);':''}">${escHtml(task.title)}</div>
                         <div style="font-size:11px;color:var(--text3);display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
@@ -2704,7 +2874,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                             ${getPriorityBadge(task.priority)}
                             ${(task.systems||[]).map(sid=>`<span>${escHtml(getSystemName(sid))}</span>`).join('')}
                             <span>${escHtml(getPhaseName(task.phase))}</span>
-                            ${!depsReady?'<span style="color:var(--danger);">⚠ blocked</span>':''}
+                            ${!depsReady?'<span style="color:var(--danger);"> blocked</span>':''}
                             ${(task.todos||[]).length>0?`<span>${task.todos.filter(t=>t.done).length}/${task.todos.length} todos</span>`:''}
                             <span>⏱ ${logged.toFixed(1)}/${est.toFixed(1)}h</span>
                         </div>
@@ -2716,10 +2886,12 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 `;
             });
             html += '</div>';
+            if(totalMatching>tasks.length) html+=`<div style="text-align:center;margin:14px"><button class="btn btn-secondary" onclick="gfTaskListLimit+=120;filterTasks(document.querySelector('[placeholder=\"Filter tasks...\"]')?.value||'',true)">Load next ${Math.min(120,totalMatching-tasks.length)} tasks (${totalMatching-tasks.length} remaining)</button></div>`;
             return html;
         }
 
-        function filterTasks(val) {
+        function filterTasks(val, loadMore=false) {
+            if(!loadMore) gfTaskListLimit=120;
             const container = document.querySelector('#taskListContainer');
             if (container) container.innerHTML = renderTaskRows(val || '');
         }
@@ -2729,9 +2901,10 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (!container) return;
             let tasks = [...(Array.isArray(state.tasks) ? state.tasks : [])].sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
             if (val) tasks = tasks.filter(t => t.status === val);
+            const totalMatching=tasks.length; tasks=tasks.slice(0,gfTaskListLimit);
             if (state.tasks.length === 0) {
                 document.querySelector('#taskListContainer').innerHTML = `
-                    <div class="empty-state"><div class="empty-icon">✓</div><p class="empty-text">No tasks yet.</p></div>`;
+                    <div class="empty-state"><div class="empty-icon"></div><p class="empty-text">No tasks yet.</p></div>`;
                 return;
             }
             let html = '<div style="display:flex;flex-direction:column;gap:6px;">';
@@ -2742,14 +2915,14 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 const logged = task.loggedHours || 0;
                 html += `
                 <div class="card" style="display:flex;align-items:center;gap:10px;cursor:pointer;" onclick="openTaskModal('${task.id}')">
-                    <span style="width:16px;text-align:center;">${task.status==='done'?'✓':task.status==='in-progress'?'→':task.status==='blocked'?'⚠':'○'}</span>
+                    <span style="width:16px;text-align:center;">${task.status==='done'?'':task.status==='in-progress'?'→':task.status==='blocked'?'':'○'}</span>
                     <div style="flex:1;min-width:0;">
                         <div style="font-weight:500;font-size:13px;${task.status==='done'?'text-decoration:line-through;color:var(--text3);':''}">${escHtml(task.title)}</div>
                         <div style="font-size:11px;color:var(--text3);display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
                             ${getStatusBadge(task.status)} ${getPriorityBadge(task.priority)}
                             ${(task.systems||[]).map(sid=>`<span>${escHtml(getSystemName(sid))}</span>`).join('')}
                             <span>${escHtml(getPhaseName(task.phase))}</span>
-                            ${!depsReady?'<span style="color:var(--danger);">⚠ blocked</span>':''}
+                            ${!depsReady?'<span style="color:var(--danger);"> blocked</span>':''}
                             ${(task.todos||[]).length>0?`<span>${task.todos.filter(t=>t.done).length}/${task.todos.length} todos</span>`:''}
                             <span>⏱ ${logged.toFixed(1)}/${est.toFixed(1)}h</span>
                         </div>
@@ -2762,7 +2935,8 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             });
             html += '</div>';
             if (tasks.length === 0) html =
-                '<div class="empty-state"><div class="empty-icon">✓</div><p class="empty-text">No matching tasks.</p></div>';
+                '<div class="empty-state"><div class="empty-icon"></div><p class="empty-text">No matching tasks.</p></div>';
+            if(totalMatching>tasks.length) html+=`<div style="text-align:center;margin:14px"><button class="btn btn-secondary" onclick="const f=document.querySelector('#taskListContainer');f.innerHTML='';gfTaskListLimit+=120;filterTasksByStatus(document.querySelector('#taskStatusFilter')?.value||'')">Load more tasks (${totalMatching-tasks.length} remaining)</button></div>`;
             document.querySelector('#taskListContainer').innerHTML = html;
         }
 
@@ -2936,15 +3110,17 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         // ARCHITECTURE
         // ============================================
         function renderArchitecture(area) {
-            const nodes = [];
-            state.relationships.forEach(rel => {
+            const MAX_GRAPH_RELATIONSHIPS=250, MAX_GRAPH_NODES=180;
+            const allRelationships=Array.isArray(state.relationships)?state.relationships:[];
+            const graphRelationships=allRelationships.slice(0,MAX_GRAPH_RELATIONSHIPS);
+            const nodes = [], nodeKeys=new Set();
+            graphRelationships.forEach(rel => {
                 const fromObj = getEntityByIdentifier(rel.from, rel.fromType);
                 const toObj = getEntityByIdentifier(rel.to, rel.toType);
                 if (fromObj && toObj) {
-                    if (!nodes.find(n => n.id === rel.from)) nodes.push({ id: rel.from, name: fromObj.name || fromObj
-                            .title, type: rel.fromType });
-                    if (!nodes.find(n => n.id === rel.to)) nodes.push({ id: rel.to, name: toObj.name || toObj
-                            .title, type: rel.toType });
+                    const fromKey=String(rel.fromType)+':'+String(rel.from), toKey=String(rel.toType)+':'+String(rel.to);
+                    if (!nodeKeys.has(fromKey) && nodes.length<MAX_GRAPH_NODES) { nodeKeys.add(fromKey); nodes.push({ id: rel.from, name: fromObj.name || fromObj.title, type: rel.fromType }); }
+                    if (!nodeKeys.has(toKey) && nodes.length<MAX_GRAPH_NODES) { nodeKeys.add(toKey); nodes.push({ id: rel.to, name: toObj.name || toObj.title, type: rel.toType }); }
                 }
             });
             let html = `
@@ -2955,7 +3131,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 </div>
             </div>
             `;
-            if (state.relationships.length === 0) {
+            if (allRelationships.length === 0) {
                 html += `
                 <div class="empty-state">
                     <div class="empty-icon">↗</div>
@@ -2973,9 +3149,10 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                     html +=
                         `<div class="arch-node" style="left:${x}px;top:${y}px;" onclick="navigateToEntity('${node.id}','${node.type}')">${escHtml(node.name)}</div>`;
                 });
-                state.relationships.forEach(rel => {
-                    const fromIdx = nodes.findIndex(n => n.id === rel.from);
-                    const toIdx = nodes.findIndex(n => n.id === rel.to);
+                const nodeIndex=new Map(nodes.map((n,i)=>[String(n.type)+':'+String(n.id),i]));
+                graphRelationships.forEach(rel => {
+                    const fromIdx = nodeIndex.get(String(rel.fromType)+':'+String(rel.from)) ?? -1;
+                    const toIdx = nodeIndex.get(String(rel.toType)+':'+String(rel.to)) ?? -1;
                     if (fromIdx > -1 && toIdx > -1) {
                         const fx = startX + (fromIdx % 4) * 160 + 50;
                         const fy = startY + Math.floor(fromIdx / 4) * 100 + 12;
@@ -2992,7 +3169,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 });
                 html += '</div>';
                 html += '<div style="margin-top:12px;display:flex;flex-direction:column;gap:4px;">';
-                state.relationships.forEach(rel => {
+                graphRelationships.forEach(rel => {
                     const fromObj = getEntityByIdentifier(rel.from, rel.fromType);
                     const toObj = getEntityByIdentifier(rel.to, rel.toType);
                     if (fromObj && toObj) {
@@ -3003,6 +3180,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                     }
                 });
                 html += '</div>';
+                if(allRelationships.length>graphRelationships.length) html+=`<p style="font-size:11px;color:var(--text3);margin-top:10px">Showing ${graphRelationships.length} of ${allRelationships.length} relationships to keep the architecture view responsive. All records remain saved.</p>`;
             }
             area.innerHTML = html;
         }
@@ -3060,7 +3238,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.bugs.length === 0) {
                 html += `
                 <div class="empty-state">
-                    <div class="empty-icon">⚠</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No bugs logged. Bugs are issues you've found during development.</p>
                     <button class="btn btn-primary" onclick="openBugModal()">+ Create Bug</button>
                 </div>`;
@@ -3103,7 +3281,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.decisions.length === 0) {
                 html += `
                 <div class="empty-state">
-                    <div class="empty-icon">⚖</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No decisions logged yet. Document important architectural and design decisions.</p>
                     <button class="btn btn-primary" onclick="openDecisionModal()">+ Create Decision</button>
                 </div>`;
@@ -3139,7 +3317,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.journal.length === 0) {
                 html += `
                 <div class="empty-state">
-                    <div class="empty-icon">📓</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No journal entries yet. Journal your development sessions to remember what you did.</p>
                     <button class="btn btn-primary" onclick="openJournalModal()">+ Create Entry</button>
                 </div>`;
@@ -3211,7 +3389,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.milestones.length === 0) {
                 html += `
                 <div class="empty-state">
-                    <div class="empty-icon">★</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No milestones yet. Define key project milestones to track progress.</p>
                     <button class="btn btn-primary" onclick="openMilestoneModal()">+ Create Milestone</button>
                 </div>`;
@@ -3257,7 +3435,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 </div>
                 <div class="card">
                     <h3 style="color:var(--danger);font-size:13px;font-weight:600;margin-bottom:8px;">Warnings</h3>
-                    ${(mem.warnings||[]).map((w,i)=>`<div style="font-size:12px;color:var(--text2);padding:4px 0;display:flex;gap:6px;"><span style="color:var(--danger);">⚠</span>${escHtml(w)}</div>`).join('') || '<p style="color:var(--text3);font-size:12px;">No warnings.</p>'}
+                    ${(mem.warnings||[]).map((w,i)=>`<div style="font-size:12px;color:var(--text2);padding:4px 0;display:flex;gap:6px;"><span style="color:var(--danger);"></span>${escHtml(w)}</div>`).join('') || '<p style="color:var(--text3);font-size:12px;">No warnings.</p>'}
                 </div>
                 <div class="card">
                     <h3 style="color:var(--info);font-size:13px;font-weight:600;margin-bottom:8px;">Development Philosophy</h3>
@@ -3370,7 +3548,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (state.documents.length === 0) {
                 html += `
                 <div class="empty-state">
-                    <div class="empty-icon">📚</div>
+                    <div class="empty-icon"></div>
                     <p class="empty-text">No documents yet. Create your first documentation entry.</p>
                     <button class="btn btn-primary" onclick="openDocModal()">+ Create Doc</button>
                 </div>`;
@@ -3436,17 +3614,23 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             <div class="card" style="margin-bottom:12px;">
                 <div class="card-title">Theme</div>
                 <div style="display:flex;gap:8px;margin-top:8px;">
-                    <button class="btn ${state.settings.theme==='dark'?'btn-primary':'btn-secondary'}" onclick="setTheme('dark')">🌙 Dark</button>
-                    <button class="btn ${state.settings.theme==='light'?'btn-primary':'btn-secondary'}" onclick="setTheme('light')">☀️ Light</button>
+                    <button class="btn ${state.settings.theme==='dark'?'btn-primary':'btn-secondary'}" onclick="setTheme('dark')"> Dark</button>
+                    <button class="btn ${state.settings.theme==='light'?'btn-primary':'btn-secondary'}" onclick="setTheme('light')"> Light</button>
                 </div>
+            </div>
+            <div class="card" style="margin-bottom:12px">
+                <div class="card-title">Save & Storage Health</div>
+                <p style="font-size:12px;color:var(--text2);margin-top:8px">Current storage: <b>${escHtml(storageBackend)}</b> · Last save: <b>${gfLastSaveAt?new Date(gfLastSaveAt).toLocaleString():'Not recorded this session'}</b></p>
+                <p style="font-size:11px;color:var(--text3);margin-top:6px">${gfSaveFailed || storageBackend!=='localStorage'?'Warning: current data is not confirmed in durable local storage ('+escHtml(storageBackend)+'). Export JSON backups now; session/memory data can disappear when the tab closes.':'Keep regular external JSON backups. Browser storage can still be cleared by the browser or operating system.'}</p>
+                <button class="btn btn-secondary" style="margin-top:8px" onclick="const ok=saveState();showToast(ok?'Save completed':'Save did not reach persistent browser storage',ok?'success':'error')">Save now</button>
             </div>
             <div class="card">
                 <div class="card-title">Data Management</div>
                 <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-                    <button class="btn btn-secondary" onclick="exportProject()">📤 Export JSON</button>
-                    <button class="btn btn-secondary" onclick="importProject()">📥 Import JSON</button>
-                    <button class="btn btn-secondary" onclick="loadDemoProject()">📦 Load Demo</button>
-                    <button class="btn btn-danger" onclick="showResetModal()">🔄 Reset Project</button>
+                    <button class="btn btn-secondary" onclick="exportProject()"> Export JSON</button>
+                    <button class="btn btn-secondary" onclick="importProject()"> Import JSON</button>
+                    <button class="btn btn-secondary" onclick="loadDemoProject()"> Load Demo</button>
+                    <button class="btn btn-danger" onclick="showResetModal()"> Reset Project</button>
                 </div>
             </div>
             `;
@@ -3465,7 +3649,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             saveStateSilent();
             applyTheme();
             const btn = document.getElementById('themeToggle');
-            if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+            if (btn) btn.textContent = theme === 'dark' ? '' : '';
             renderView();
         }
 
@@ -3477,7 +3661,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             const theme = state.settings.theme || 'dark';
             document.querySelector('.app-container').setAttribute('data-theme', theme);
             const btn = document.getElementById('themeToggle');
-            if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
+            if (btn) btn.textContent = theme === 'dark' ? '' : '';
         }
 
         // ============================================
@@ -3488,16 +3672,16 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 title: 'Create New',
                 body: `
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                    <button class="btn btn-secondary" onclick="closeModal();openSystemModal()" style="padding:12px;">⚙ System</button>
-                    <button class="btn btn-secondary" onclick="closeModal();openTaskModal()" style="padding:12px;">✓ Task</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openSystemModal()" style="padding:12px;"> System</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openTaskModal()" style="padding:12px;"> Task</button>
                     <button class="btn btn-secondary" onclick="closeModal();openScriptModal()" style="padding:12px;">{} Script</button>
                     <button class="btn btn-secondary" onclick="closeModal();openGameObjectModal()" style="padding:12px;">◇ GameObject</button>
                     <button class="btn btn-secondary" onclick="closeModal();openPrefabModal()" style="padding:12px;">▣ Prefab</button>
                     <button class="btn btn-secondary" onclick="closeModal();openSceneModal()" style="padding:12px;">▤ Scene</button>
-                    <button class="btn btn-secondary" onclick="closeModal();openBugModal()" style="padding:12px;">⚠ Bug</button>
-                    <button class="btn btn-secondary" onclick="closeModal();openMilestoneModal()" style="padding:12px;">★ Milestone</button>
-                    <button class="btn btn-secondary" onclick="closeModal();openDocModal()" style="padding:12px;">📚 Document</button>
-                    <button class="btn btn-secondary" onclick="closeModal();openDecisionModal()" style="padding:12px;">⚖ Decision</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openBugModal()" style="padding:12px;"> Bug</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openMilestoneModal()" style="padding:12px;"> Milestone</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openDocModal()" style="padding:12px;"> Document</button>
+                    <button class="btn btn-secondary" onclick="closeModal();openDecisionModal()" style="padding:12px;"> Decision</button>
                     <button class="btn btn-secondary" onclick="closeModal();openCheckpointModal()" style="padding:12px;">◉ Checkpoint</button>
                     <button class="btn btn-secondary" onclick="closeModal();openPhaseModal()" style="padding:12px;">⟳ Phase</button>
                 </div>
@@ -3979,7 +4163,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 </div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(task?.todos||[])}</div>
                 <div class="form-group"><label>Notes</label><textarea id="taskNotes" rows="2">${escHtml(task?.notes||'')}</textarea></div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(task.id, 'task') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(task.id, 'task') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const title = document.getElementById('taskTitle').value.trim();
@@ -4061,7 +4245,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 <div class="form-group"><label>Tags (comma-separated)</label><input type="text" id="sysTags" value="${escHtml((system?.tags||[]).join(', '))}"></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(system?.dependencies || [], system?.id, 'system')}</div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(system?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(system.id, 'system') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(system.id, 'system') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('sysName').value.trim();
@@ -4150,7 +4334,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                     <div class="form-group"><label>Logged (hours)</label><input type="number" id="scrLogged" value="${script?.loggedHours||0}" step="0.5"></div>
                 </div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(script?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(script.id, 'script') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(script.id, 'script') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('scrName').value.trim();
@@ -4226,7 +4410,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 <div class="form-group"><label>System</label><select id="goSystem"><option value="">—</option>${sysOptions}</select></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(go?.dependencies || [], go?.id, 'gameObject')}</div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(go?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(go.id, 'gameObject') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(go.id, 'gameObject') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('goName').value.trim();
@@ -4289,7 +4473,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 <div class="form-group"><label>Scripts (comma-separated)</label><input type="text" id="prfScripts" value="${escHtml((prefab?.scripts||[]).join(', '))}"></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(prefab?.dependencies || [], prefab?.id, 'prefab')}</div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(prefab?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(prefab.id, 'prefab') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(prefab.id, 'prefab') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('prfName').value.trim();
@@ -4341,7 +4525,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 <div class="form-group"><label>Contains (comma-separated)</label><input type="text" id="scnContains" value="${escHtml((scene?.contains||[]).join(', '))}"></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(scene?.dependencies || [], scene?.id, 'scene')}</div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(scene?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(scene.id, 'scene') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(scene.id, 'scene') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('scnName').value.trim();
@@ -4628,7 +4812,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 <div class="form-group"><label>Systems</label><select id="msSystems" multiple size="3">${sysOptions}</select></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(ms?.dependencies || [], ms?.id, 'milestone')}</div>
                 <div class="form-group"><label>Todos (check items to track progress)</label>${renderTodoEditor(ms?.todos||[])}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(ms.id, 'milestone') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(ms.id, 'milestone') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('msName').value.trim();
@@ -4726,7 +4910,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                     <option value="done" ${phase?.status==='done'?'selected':''}>Done</option>
                 </select></div>
                 <div class="form-group"><label>Dependencies (any entity)</label>${renderDependencyEditor(phase?.dependencies || [], phase?.id, 'phase')}</div>
-                <div class="form-group"><label>🔗 Used by</label>${isEdit ? renderUsedBy(phase.id, 'phase') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
+                <div class="form-group"><label> Used by</label>${isEdit ? renderUsedBy(phase.id, 'phase') : '<p style="color:var(--text3);font-size:11px;">Save first to see reverse links.</p>'}</div>
                 `,
                 onSave: () => {
                     const name = document.getElementById('phName').value.trim();
@@ -4890,22 +5074,22 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 { icon: '⌂', label: 'Open Dashboard', action: "navigate('dashboard')" },
                 { icon: '⟳', label: 'Open Roadmap', action: "navigate('roadmap')" },
                 { icon: '▦', label: 'Open Kanban Board', action: "navigate('kanban')" },
-                { icon: '⚙', label: 'Open Systems', action: "navigate('systems')" },
+                { icon: '', label: 'Open Systems', action: "navigate('systems')" },
                 { icon: '+', label: 'Create System', action: "openSystemModal()" },
-                { icon: '✓', label: 'Create Task', action: "openTaskModal()" },
+                { icon: '', label: 'Create Task', action: "openTaskModal()" },
                 { icon: '{}', label: 'Create Script', action: "openScriptModal()" },
                 { icon: '◇', label: 'Create GameObject', action: "openGameObjectModal()" },
                 { icon: '▣', label: 'Create Prefab', action: "openPrefabModal()" },
                 { icon: '▤', label: 'Create Scene', action: "openSceneModal()" },
-                { icon: '⚠', label: 'Create Bug', action: "openBugModal()" },
-                { icon: '★', label: 'Create Milestone', action: "openMilestoneModal()" },
-                { icon: '📚', label: 'Create Document', action: "openDocModal()" },
-                { icon: '⚖', label: 'Create Decision', action: "openDecisionModal()" },
+                { icon: '', label: 'Create Bug', action: "openBugModal()" },
+                { icon: '', label: 'Create Milestone', action: "openMilestoneModal()" },
+                { icon: '', label: 'Create Document', action: "openDocModal()" },
+                { icon: '', label: 'Create Decision', action: "openDecisionModal()" },
                 { icon: '◉', label: 'Save Checkpoint', action: "openCheckpointModal()" },
-                { icon: '📓', label: 'Journal Entry', action: "openJournalModal()" },
-                { icon: '📤', label: 'Export Project', action: "exportProject()" },
-                { icon: '📥', label: 'Import Project', action: "importProject()" },
-                { icon: '📍', label: 'Where Was I?', action: "openWhereWasI()" },
+                { icon: '', label: 'Journal Entry', action: "openJournalModal()" },
+                { icon: '', label: 'Export Project', action: "exportProject()" },
+                { icon: '', label: 'Import Project', action: "importProject()" },
+                { icon: '', label: 'Where Was I?', action: "openWhereWasI()" },
                 { icon: '▶', label: 'Start Session', action: "startSession()" },
             ];
             const q = query.toLowerCase().trim();
@@ -4933,7 +5117,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 .updatedAt) - new Date(a.updatedAt)).slice(0, 3);
 
             openModal({
-                title: '📍 Where Was I?',
+                title: ' Where Was I?',
                 body: `
                 <div style="display:flex;flex-direction:column;gap:10px;">
                     <div><strong>Current Phase:</strong> ${escHtml(state.project.phase || '—')}</div>
@@ -5502,15 +5686,15 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
 
         function gfNextAction() {
             const blocked=(state.tasks||[]).filter(t=>t.status==='blocked'||gfIncompleteDependencyCount(t)>0);
-            if(blocked.length) return {icon:'🚧',title:'Unblock a dependency',detail:`${blocked[0].title} is blocked. Resolve its prerequisite before doing more work.`,entity:blocked[0]};
+            if(blocked.length) return {icon:'',title:'Unblock a dependency',detail:`${blocked[0].title} is blocked. Resolve its prerequisite before doing more work.`,entity:blocked[0]};
             const active=(state.tasks||[]).filter(t=>t.status==='in-progress');
             if(active.length) return {icon:'▶',title:'Finish current work',detail:`Continue "${active[0].title}" and move it to Testing only after its done criteria are met.`,entity:active[0]};
             const planned=(state.tasks||[]).filter(t=>t.status==='planned').sort((a,b)=>(b.priority==='critical'?4:b.priority==='high'?3:2)-(a.priority==='critical'?4:a.priority==='high'?3:2));
             if(planned.length) return {icon:'→',title:'Start planned task',detail:`Start "${planned[0].title}" — it is already planned and should be the next execution step.`,entity:planned[0]};
             const unfinishedSystems=(state.systems||[]).filter(s=>!gfEntityStatusDone(s));
-            if(unfinishedSystems.length) return {icon:'⚙',title:'Define the next system task',detail:`"${unfinishedSystems[0].name}" needs implementation work or tasks before more features are added.`,entity:unfinishedSystems[0]};
+            if(unfinishedSystems.length) return {icon:'',title:'Define the next system task',detail:`"${unfinishedSystems[0].name}" needs implementation work or tasks before more features are added.`,entity:unfinishedSystems[0]};
             if(!(state.phases||[]).length) return {icon:'⟳',title:'Create the roadmap',detail:'Define development phases before expanding the implementation.',entity:null};
-            return {icon:'✓',title:'Review the project',detail:'No obvious next task. Run a health check and choose the highest-value missing piece.',entity:null};
+            return {icon:'',title:'Review the project',detail:'No obvious next task. Run a health check and choose the highest-value missing piece.',entity:null};
         }
 
         function gfFeatureBreakdown(feature) {
@@ -5582,7 +5766,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             const panel=document.createElement('div');
             panel.className='gf-intel-panel';
             panel.innerHTML=`
-                <div class="gf-intel-header"><div><div class="gf-intel-title">🧠 Forge Intelligence</div><div class="gf-intel-subtitle">Your project advisor — planning, dependencies, testing, scope and architecture in one place.</div></div>
+                <div class="gf-intel-header"><div><div class="gf-intel-title"> Forge Intelligence</div><div class="gf-intel-subtitle">Your project advisor — planning, dependencies, testing, scope and architecture in one place.</div></div>
                 <div class="gf-mode">Mode <select onchange="gfSetMode(this.value)">${['PLAN','BUILD','TEST','DEBUG','REVIEW','REFLECT','NEXT'].map(x=>`<option ${x===mode?'selected':''}>${x}</option>`).join('')}</select></div></div>
                 <div class="gf-intel-grid">
                   <div class="gf-intel-card"><h4>Project Health</h4><div>${gfHealthBadge(h.score)}</div><p>${h.blocked} blocked · ${h.openBugs} open bugs · ${h.archIssues.length} architecture flags</p></div>
@@ -5592,14 +5776,14 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 </div>
                 <div class="gf-intel-actions">
                   <button class="btn btn-primary btn-sm" onclick="gfOpenNextAction()">▶ Next Action</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenHealth()">🩺 Health Check</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenFeatureBreakdown()">🧩 Feature Breakdown</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenMissingPieces()">🔎 Missing Pieces</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenImpactAnalysis()">🔗 Impact Analysis</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenTesting()">🧪 Testing</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenArchitectureCleanup()">🏗 Cleanup</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenCoreLoop()">🎮 Core Loop</button>
-                  <button class="btn btn-secondary btn-sm" onclick="gfOpenScope()">🎯 Scope</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenHealth()"> Health Check</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenFeatureBreakdown()"> Feature Breakdown</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenMissingPieces()"> Missing Pieces</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenImpactAnalysis()"> Impact Analysis</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenTesting()"> Testing</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenArchitectureCleanup()"> Cleanup</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenCoreLoop()"> Core Loop</button>
+                  <button class="btn btn-secondary btn-sm" onclick="gfOpenScope()"> Scope</button>
                 </div>
                 ${rows.length?`<div style="margin-top:12px"><div style="font-size:11px;font-weight:600;margin-bottom:6px;">Feature / System Progress</div>${rows.map(r=>`<div class="gf-feature-row"><div><b style="font-size:11px">${escHtml(r.name)}</b><span class="gf-chip">${r.tasks} tasks</span></div><div class="gf-progress"><div class="progress-bar"><div class="progress-fill" style="width:${r.progress}%"></div></div><div style="font-size:9px;color:var(--text3);text-align:right">${r.progress}%</div></div></div>`).join('')}</div>`:''}
             `;
@@ -5611,12 +5795,12 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             const area=document.getElementById('contentArea'); if(!area)return;
             const tools=document.createElement('div'); tools.className='gf-intel-panel';
             const actions = currentView==='kanban'
-                ? [['🩺','Health Check','gfOpenHealth()'],['🔗','Dependency Intelligence','gfOpenDependencyIntelligence()'],['🧪','Testing Assistant','gfOpenTesting()'],['🎯','Scope Warning','gfOpenScope()']]
+                ? [['','Health Check','gfOpenHealth()'],['','Dependency Intelligence','gfOpenDependencyIntelligence()'],['','Testing Assistant','gfOpenTesting()'],['','Scope Warning','gfOpenScope()']]
                 : currentView==='architecture'
-                ? [['🏗','Architecture Cleanup','gfOpenArchitectureCleanup()'],['🔗','Impact Analysis','gfOpenImpactAnalysis()'],['🩺','Health Check','gfOpenHealth()']]
+                ? [['','Architecture Cleanup','gfOpenArchitectureCleanup()'],['','Impact Analysis','gfOpenImpactAnalysis()'],['','Health Check','gfOpenHealth()']]
                 : currentView==='bugs'
-                ? [['🐛','Bug Investigation','gfOpenBugInvestigation()'],['🩺','Health Check','gfOpenHealth()'],['🧪','Testing Assistant','gfOpenTesting()']]
-                : [['🧩','Feature Breakdown','gfOpenFeatureBreakdown()'],['🔎','Missing Pieces','gfOpenMissingPieces()'],['🔗','Impact Analysis','gfOpenImpactAnalysis()'],['🩺','Health Check','gfOpenHealth()']];
+                ? [['','Bug Investigation','gfOpenBugInvestigation()'],['','Health Check','gfOpenHealth()'],['','Testing Assistant','gfOpenTesting()']]
+                : [['','Feature Breakdown','gfOpenFeatureBreakdown()'],['','Missing Pieces','gfOpenMissingPieces()'],['','Impact Analysis','gfOpenImpactAnalysis()'],['','Health Check','gfOpenHealth()']];
             tools.innerHTML=`<div class="gf-intel-header"><div><div class="gf-intel-title">Forge Intelligence</div><div class="gf-intel-subtitle">Tools that reason across your existing GameForge data.</div></div></div><div class="gf-intel-actions">${actions.map(a=>`<button class="btn btn-secondary btn-sm" onclick="${a[2]}">${a[0]} ${a[1]}</button>`).join('')}</div>`;
             area.insertBefore(tools,area.firstChild);
         }
@@ -5625,7 +5809,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
 
         function gfOpenNextAction(){
             const n=gfNextAction();
-            openModal({title:'🧭 What Should I Do Next?',body:`<div class="card"><div class="card-title">${n.icon} ${escHtml(n.title)}</div><p style="color:var(--text2);font-size:12px;margin-top:6px">${escHtml(n.detail)}</p></div><div class="help-intro" style="margin-top:10px">Rule: finish/unblock the highest-value dependency before adding unrelated features.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>${n.entity?`<button class="btn btn-primary" onclick="closeModal();navigateToEntityByType('${n.entity.id}','${state.tasks.includes(n.entity)?'task':'system'}')">Open</button>`:''}`});
+            openModal({title:' What Should I Do Next?',body:`<div class="card"><div class="card-title">${n.icon} ${escHtml(n.title)}</div><p style="color:var(--text2);font-size:12px;margin-top:6px">${escHtml(n.detail)}</p></div><div class="help-intro" style="margin-top:10px">Rule: finish/unblock the highest-value dependency before adding unrelated features.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>${n.entity?`<button class="btn btn-primary" onclick="closeModal();navigateToEntityByType('${n.entity.id}','${state.tasks.includes(n.entity)?'task':'system'}')">Open</button>`:''}`});
         }
 
         function gfOpenHealth(){
@@ -5635,15 +5819,15 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 ['Bugs',h.openBugs?Math.max(0,100-h.openBugs*10):100,`${h.openBugs} open`],
                 ['Architecture',h.archIssues.length?Math.max(0,100-h.archIssues.length*8):100,`${h.archIssues.length} flags`]
             ];
-            openModal({title:'🩺 Development Health Check',body:`<div style="margin-bottom:10px">${gfHealthBadge(h.score)}</div>${rows.map(r=>`<div class="gf-health-row"><span class="gf-health-label">${r[0]}</span><div class="gf-health-meter"><span style="width:${r[1]}%"></span></div><span style="font-size:10px;color:var(--text3)">${r[2]}</span></div>`).join('')}<h4 style="margin-top:14px;font-size:12px">Detected Issues</h4>${h.archIssues.length?`<ul class="gf-list">${h.archIssues.slice(0,12).map(i=>`<li><b>${escHtml(i.kind)}</b> — ${escHtml(i.detail)}</li>`).join('')}</ul>`:'<p style="font-size:11px;color:var(--success);margin-top:6px">No major architecture flags detected.</p>'}<div class="help-intro" style="margin-top:12px">Health is a planning signal, not a claim that the project is technically correct. Verify important findings.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>`});
+            openModal({title:' Development Health Check',body:`<div style="margin-bottom:10px">${gfHealthBadge(h.score)}</div>${rows.map(r=>`<div class="gf-health-row"><span class="gf-health-label">${r[0]}</span><div class="gf-health-meter"><span style="width:${r[1]}%"></span></div><span style="font-size:10px;color:var(--text3)">${r[2]}</span></div>`).join('')}<h4 style="margin-top:14px;font-size:12px">Detected Issues</h4>${h.archIssues.length?`<ul class="gf-list">${h.archIssues.slice(0,12).map(i=>`<li><b>${escHtml(i.kind)}</b> — ${escHtml(i.detail)}</li>`).join('')}</ul>`:'<p style="font-size:11px;color:var(--success);margin-top:6px">No major architecture flags detected.</p>'}<div class="help-intro" style="margin-top:12px">Health is a planning signal, not a claim that the project is technically correct. Verify important findings.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>`});
         }
 
         function gfOpenFeatureBreakdown(){
-            openModal({title:'🧩 Feature Breakdown',body:`<div class="form-group"><label>Feature / Goal</label><textarea id="gfFeatureInput" rows="4" placeholder="Example: I want enemies to raid and destroy my farm."></textarea></div><div id="gfFeaturePreview"></div>`,keepOpen:true,onSave:()=>{
+            openModal({title:' Feature Breakdown',body:`<div class="form-group"><label>Feature / Goal</label><textarea id="gfFeatureInput" rows="4" placeholder="Example: I want enemies to raid and destroy my farm."></textarea></div><div id="gfFeaturePreview"></div>`,keepOpen:true,onSave:()=>{
                 const f=document.getElementById('gfFeatureInput')?.value.trim(); if(!f){showToast('Enter a feature first.','error');return;}
                 const plan=gfFeatureBreakdown(f);gfEnsureIntelligenceState().lastFeature=f;
                 const body=`<div class="card"><b>${escHtml(plan.feature)}</b><h4 style="margin-top:10px">Required Systems</h4><ul class="gf-list">${plan.systems.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul><h4 style="margin-top:10px">Likely Scripts</h4><ul class="gf-list">${plan.scripts.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul><h4 style="margin-top:10px">GameObjects</h4><ul class="gf-list">${plan.objects.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul><h4 style="margin-top:10px">Implementation Tasks</h4><ol class="gf-list">${plan.tasks.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ol><h4 style="margin-top:10px">Optional</h4><ul class="gf-list">${plan.optional.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul></div>`;
-                openModal({title:'🧩 Feature Plan',body,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfCreateFeaturePlan(${JSON.stringify(plan).replace(/"/g,'&quot;')})">Create Core Items</button>`});
+                openModal({title:' Feature Plan',body,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfCreateFeaturePlan(${JSON.stringify(plan).replace(/"/g,'&quot;')})">Create Core Items</button>`});
             }});
         }
 
@@ -5665,25 +5849,25 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         }
 
         function gfOpenMissingPieces(){
-            openModal({title:'🔎 Missing Pieces Detector',body:`<div class="form-group"><label>Feature / Behavior</label><textarea id="gfMissingInput" rows="4" placeholder="Example: Enemies can destroy farms and restaurants."></textarea></div>`,onSave:()=>{
+            openModal({title:' Missing Pieces Detector',body:`<div class="form-group"><label>Feature / Behavior</label><textarea id="gfMissingInput" rows="4" placeholder="Example: Enemies can destroy farms and restaurants."></textarea></div>`,onSave:()=>{
                 const f=document.getElementById('gfMissingInput')?.value.trim();if(!f){showToast('Describe the feature.','error');return;}
                 const p=gfFeatureBreakdown(f);
                 const missing=[];
                 p.systems.forEach(x=>{if(!state.systems.some(s=>s.name.toLowerCase()===x.toLowerCase()))missing.push(`System: ${x}`)});
                 p.scripts.forEach(x=>{if(!state.scripts.some(s=>s.name.toLowerCase()===x.toLowerCase()))missing.push(`Script: ${x}`)});
                 p.tasks.forEach(x=>{if(!state.tasks.some(t=>t.title.toLowerCase()===x.toLowerCase()))missing.push(`Task: ${x}`)});
-                openModal({title:'🔎 Missing Pieces',body:`<div class="card"><div class="card-title">${missing.length?missing.length+' likely missing pieces':'No obvious missing pieces from the current data'}</div>${missing.length?`<ul class="gf-list">${missing.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="font-size:11px;color:var(--success);margin-top:6px">Still verify runtime requirements; this detector is a planning heuristic.</p>'}</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();gfOpenFeatureBreakdown()">Plan Feature</button>`});
+                openModal({title:' Missing Pieces',body:`<div class="card"><div class="card-title">${missing.length?missing.length+' likely missing pieces':'No obvious missing pieces from the current data'}</div>${missing.length?`<ul class="gf-list">${missing.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="font-size:11px;color:var(--success);margin-top:6px">Still verify runtime requirements; this detector is a planning heuristic.</p>'}</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();gfOpenFeatureBreakdown()">Plan Feature</button>`});
             }});
         }
 
         function gfOpenDependencyIntelligence(){
             const blocked=state.tasks.filter(t=>gfIncompleteDependencyCount(t)>0||t.status==='blocked');
-            openModal({title:'🔗 Dependency Intelligence',body:`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">Tasks with incomplete or missing prerequisites are surfaced first.</p>${blocked.length?`<ul class="gf-list">${blocked.slice(0,20).map(t=>`<li><b>${escHtml(t.title)}</b> — ${gfIncompleteDependencyCount(t)} unresolved dependency(s)</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No unresolved task dependencies detected.</p>'}<div class="help-intro" style="margin-top:12px">Dependency intelligence uses the relationships already stored in GameForge. It does not invent runtime dependencies.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>`});
+            openModal({title:' Dependency Intelligence',body:`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">Tasks with incomplete or missing prerequisites are surfaced first.</p>${blocked.length?`<ul class="gf-list">${blocked.slice(0,20).map(t=>`<li><b>${escHtml(t.title)}</b> — ${gfIncompleteDependencyCount(t)} unresolved dependency(s)</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No unresolved task dependencies detected.</p>'}<div class="help-intro" style="margin-top:12px">Dependency intelligence uses the relationships already stored in GameForge. It does not invent runtime dependencies.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button>`});
         }
 
         function gfOpenImpactAnalysis(){
             const options=gfAllEntities().map(x=>`<option value="${x.type}|${x.id}">${escHtml(x.label)} — ${escHtml(x.name)}</option>`).join('');
-            openModal({title:'🔗 What Will This Affect?',body:`<div class="form-group"><label>Entity</label><select id="gfImpactEntity">${options||'<option>No entities yet</option>'}</select></div><div id="gfImpactResult" class="help-intro">Select an entity and click Analyze.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfAnalyzeImpact()">Analyze</button>`});
+            openModal({title:' What Will This Affect?',body:`<div class="form-group"><label>Entity</label><select id="gfImpactEntity">${options||'<option>No entities yet</option>'}</select></div><div id="gfImpactResult" class="help-intro">Select an entity and click Analyze.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfAnalyzeImpact()">Analyze</button>`});
         }
         function gfAnalyzeImpact(){
             const v=document.getElementById('gfImpactEntity')?.value||'';const [type,id]=v.split('|');if(!id)return;
@@ -5695,27 +5879,27 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
 
         function gfOpenTesting(){
             const candidates=state.tasks.filter(t=>['done','testing','in-progress'].includes(t.status));
-            openModal({title:'🧪 Testing Assistant',body:`<div class="form-group"><label>Task to test</label><select id="gfTestTask">${candidates.map(t=>`<option value="${t.id}">${escHtml(t.title)}</option>`).join('')||'<option value="">No suitable tasks</option>'}</select></div><div id="gfTestPlans">${state.intelligence.testPlans.length?state.intelligence.testPlans.slice(-5).map(p=>`<div class="card" style="margin-top:6px"><b>${escHtml(p.title)}</b><p style="font-size:10px;color:var(--text3)">${p.tests.filter(x=>x.done).length}/${p.tests.length} checks complete</p></div>`).join(''):'<p style="font-size:11px;color:var(--text3)">Generate a plan for a task to define what “tested” means.</p>'}</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfGenerateTestPlan()">Generate Test Plan</button>`});
+            openModal({title:' Testing Assistant',body:`<div class="form-group"><label>Task to test</label><select id="gfTestTask">${candidates.map(t=>`<option value="${t.id}">${escHtml(t.title)}</option>`).join('')||'<option value="">No suitable tasks</option>'}</select></div><div id="gfTestPlans">${state.intelligence.testPlans.length?state.intelligence.testPlans.slice(-5).map(p=>`<div class="card" style="margin-top:6px"><b>${escHtml(p.title)}</b><p style="font-size:10px;color:var(--text3)">${p.tests.filter(x=>x.done).length}/${p.tests.length} checks complete</p></div>`).join(''):'<p style="font-size:11px;color:var(--text3)">Generate a plan for a task to define what “tested” means.</p>'}</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="gfGenerateTestPlan()">Generate Test Plan</button>`});
         }
         function gfGenerateTestPlan(){
             const id=document.getElementById('gfTestTask')?.value;if(!id)return;
             const p=gfTestPlanForTask(id);state.intelligence.testPlans.push(p);saveState();
-            openModal({title:'🧪 Test Plan Created',body:`<div class="card"><b>${escHtml(p.title)}</b><ol class="gf-list">${p.tests.map(x=>`<li>${escHtml(x.text)}</li>`).join('')}</ol></div>`,footer:`<button class="btn btn-primary" onclick="closeModal()">Done</button>`});
+            openModal({title:' Test Plan Created',body:`<div class="card"><b>${escHtml(p.title)}</b><ol class="gf-list">${p.tests.map(x=>`<li>${escHtml(x.text)}</li>`).join('')}</ol></div>`,footer:`<button class="btn btn-primary" onclick="closeModal()">Done</button>`});
         }
 
         function gfOpenArchitectureCleanup(){
             const issues=gfArchitectureIssues();
-            openModal({title:'🏗 Architecture Cleanup',body:issues.length?`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">These are heuristics. Inspect before changing architecture.</p><ul class="gf-list">${issues.map(i=>`<li><b>${escHtml(i.kind)}</b> — ${escHtml(i.detail)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No obvious architecture smells detected from stored relationships.</p>',footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('architecture')">Open Architecture</button>`});
+            openModal({title:' Architecture Cleanup',body:issues.length?`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">These are heuristics. Inspect before changing architecture.</p><ul class="gf-list">${issues.map(i=>`<li><b>${escHtml(i.kind)}</b> — ${escHtml(i.detail)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No obvious architecture smells detected from stored relationships.</p>',footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('architecture')">Open Architecture</button>`});
         }
 
         function gfOpenCoreLoop(){
             const r=gfCoreLoopReport();
-            openModal({title:'🎮 Core Loop Analyzer',body:`<div class="card"><div class="card-title">Current Core Loop</div><p style="font-size:12px;color:var(--text2);margin-top:6px">${escHtml(r.loop||'Not defined yet.')}</p></div><h4 style="margin-top:12px">Missing / Review</h4>${r.missing.length?`<ul class="gf-list">${r.missing.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">The core design fields have a reasonable baseline. Playtest to validate the actual loop.</p>'}<div class="help-intro" style="margin-top:12px">This analyzes Game Design fields, not gameplay quality. Use the GDD tab to refine the actual player experience.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('gdd')">Open Game Design</button>`});
+            openModal({title:' Core Loop Analyzer',body:`<div class="card"><div class="card-title">Current Core Loop</div><p style="font-size:12px;color:var(--text2);margin-top:6px">${escHtml(r.loop||'Not defined yet.')}</p></div><h4 style="margin-top:12px">Missing / Review</h4>${r.missing.length?`<ul class="gf-list">${r.missing.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">The core design fields have a reasonable baseline. Playtest to validate the actual loop.</p>'}<div class="help-intro" style="margin-top:12px">This analyzes Game Design fields, not gameplay quality. Use the GDD tab to refine the actual player experience.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('gdd')">Open Game Design</button>`});
         }
 
         function gfOpenScope(){
             const r=gfScopeReport();
-            openModal({title:'🎯 Scope Warning',body:`<div class="gf-intel-grid"><div class="gf-intel-card"><h4>Unfinished Systems</h4><div class="gf-intel-stat">${r.majorSystems}</div></div><div class="gf-intel-card"><h4>Unfinished Tasks</h4><div class="gf-intel-stat">${r.activeTasks}</div></div><div class="gf-intel-card"><h4>Optional-looking</h4><div class="gf-intel-stat">${r.optional}</div></div></div><h4 style="margin-top:12px">Warnings</h4>${r.warnings.length?`<ul class="gf-list">${r.warnings.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No major scope warning from current data.</p>'}<div class="help-intro" style="margin-top:12px">Scope warnings are signals. Use milestones and your intended MVP to make the final call.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('milestones')">Review Milestones</button>`});
+            openModal({title:' Scope Warning',body:`<div class="gf-intel-grid"><div class="gf-intel-card"><h4>Unfinished Systems</h4><div class="gf-intel-stat">${r.majorSystems}</div></div><div class="gf-intel-card"><h4>Unfinished Tasks</h4><div class="gf-intel-stat">${r.activeTasks}</div></div><div class="gf-intel-card"><h4>Optional-looking</h4><div class="gf-intel-stat">${r.optional}</div></div></div><h4 style="margin-top:12px">Warnings</h4>${r.warnings.length?`<ul class="gf-list">${r.warnings.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul>`:'<p style="color:var(--success);font-size:11px">No major scope warning from current data.</p>'}<div class="help-intro" style="margin-top:12px">Scope warnings are signals. Use milestones and your intended MVP to make the final call.</div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();navigate('milestones')">Review Milestones</button>`});
         }
 
         function gfOpenBugInvestigation(){
@@ -5723,7 +5907,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             const b=bugs[0];
             if(!b){showToast('No open bugs to investigate.','info');return;}
             const tests=['Reproduce the bug from a clean starting state.','Record exact expected vs actual behavior.','Check the affected system/script/GameObject first.','Change one variable at a time and retest.','Confirm the root cause before applying a fix.','Verify the fix and run a regression check.'];
-            openModal({title:'🐛 Bug Investigation Assistant',body:`<div class="card"><div class="card-title">${escHtml(b.title)}</div><p style="font-size:11px;color:var(--text3)">Status: ${escHtml(b.status||'')}</p><h4 style="margin-top:10px">Investigation Checklist</h4><ul class="gf-list">${tests.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul></div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();openBugModal('${b.id}')">Open Bug</button>`});
+            openModal({title:' Bug Investigation Assistant',body:`<div class="card"><div class="card-title">${escHtml(b.title)}</div><p style="font-size:11px;color:var(--text3)">Status: ${escHtml(b.status||'')}</p><h4 style="margin-top:10px">Investigation Checklist</h4><ul class="gf-list">${tests.map(x=>`<li>${escHtml(x)}</li>`).join('')}</ul></div>`,footer:`<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="closeModal();openBugModal('${b.id}')">Open Bug</button>`});
         }
 
         // Wrap the existing renderer rather than replacing it. This preserves every
@@ -5733,12 +5917,15 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             try {
                 gfOriginalRenderView();
             } catch (error) {
-                console.error('GameForge renderer error:', error);
+                console.error('GameForge renderer error in tab ['+currentView+']:', error);
+                try { window.__GAMEFORGE_LAST_RENDER_ERROR__={view:currentView,message:String(error?.message||error),stack:String(error?.stack||''),at:new Date().toISOString()}; } catch (_) {}
                 const area = document.getElementById('contentArea');
                 if (area) {
-                    area.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><p class="empty-text">This view encountered an error while rendering.</p><button class="btn btn-secondary" onclick="renderView()">Retry</button></div>`;
+                    const detail=String(error?.message||error||'Unknown error');
+                    area.innerHTML = `<div class="card" style="max-width:760px;margin:24px auto;border-color:var(--danger)"><div class="empty-icon"></div><h3>Could not render: ${escHtml(currentView)}</h3><p class="empty-text">The data has not been intentionally deleted. Try retrying, or export a backup before continuing.</p><details style="margin:12px 0"><summary>Technical error details</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;color:var(--danger)">${escHtml(detail)}
+${escHtml(error?.stack||'')}</pre></details><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-secondary" onclick="renderView()">Retry this tab</button><button class="btn btn-secondary" onclick="exportAllProjects()">Backup all projects</button><button class="btn btn-primary" onclick="navigate('dashboard')">Return to dashboard</button></div></div>`;
                 }
-                showToast('View rendering failed. Your data is still in memory.', 'error');
+                showToast('Rendering failed in '+currentView+'. Export a backup before retrying.', 'error');
                 return;
             }
             try {
@@ -5766,7 +5953,7 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
             if (e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 saveState();
-                showToast('Saved ✓', 'success');
+                showToast('Saved ', 'success');
             }
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName ===
                 'SELECT') {
@@ -5776,6 +5963,10 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
                 openTaskModal();
             }
         });
+
+        // Save health diagnostics and best-effort flush when the page is backgrounded.
+        document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveStateSilent(); });
+        window.addEventListener('pagehide', () => { saveStateSilent(); });
 
         // ============================================
         // GLOBAL ERROR SAFETY
@@ -5792,6 +5983,54 @@ let selectedKanbanFilter = { status: null, system: null, tag: null, phase: null,
         // ============================================
         // INITIALIZATION
         // ============================================
+
+        // Core planning features: lightweight analytics and a date-aware task calendar.
+        function renderAnalytics(area) {
+            const total = state.tasks.length;
+            const done = state.tasks.filter(t=>t.status==='done').length;
+            const active = state.tasks.filter(t=>t.status==='in-progress').length;
+            const blocked = state.tasks.filter(t=>t.status==='blocked').length;
+            const planned = state.tasks.filter(t=>!['done','in-progress','blocked'].includes(t.status)).length;
+            const bugsOpen = state.bugs.filter(b=>['open','investigating'].includes(b.status)).length;
+            const progress = total ? Math.round(done/total*100) : 0;
+            const phaseRows = state.phases.map(p=>({name:p.name||'Unnamed phase', progress:calculatePhaseProgress(p), status:p.status||'planned'}));
+            const hoursEstimated = [...state.tasks,...state.systems,...state.scripts].reduce((n,x)=>n+finiteNumber(x.estimatedHours),0);
+            const hoursLogged = [...state.tasks,...state.systems,...state.scripts].reduce((n,x)=>n+finiteNumber(x.loggedHours),0);
+            const bar=(label,value,max,color='var(--text)')=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>${escHtml(label)}</span><b>${value}</b></div><div style="height:7px;background:var(--surface3);border-radius:5px;overflow:hidden"><div style="height:100%;width:${max?Math.min(100,value/max*100):0}%;background:${color};transition:width .35s ease"></div></div></div>`;
+            area.innerHTML=`<h2 style="font-size:18px;margin-bottom:14px">Project Analytics</h2>
+            <div class="card-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px">
+            ${[['Task completion',progress+'%'],['Tasks complete',`${done} / ${total}`],['In progress',active],['Blocked tasks',blocked],['Open bugs',bugsOpen],['Hours logged',hoursLogged.toFixed(1)+' h']].map(([k,v])=>`<div class="card"><div class="card-title">${escHtml(k)}</div><div style="font-size:24px;font-weight:650;margin-top:8px">${escHtml(String(v))}</div></div>`).join('')}
+            </div><div class="card" style="margin-bottom:12px"><div class="card-title">Task Status Distribution</div>
+            ${bar('Completed',done,total,'var(--success)')}${bar('In progress',active,total,'var(--info)')}${bar('Blocked',blocked,total,'var(--danger)')}${bar('Planned',planned,total,'var(--text3)')}</div>
+            <div class="card"><div class="card-title">Phase Progress</div>${phaseRows.length?phaseRows.map(p=>bar(p.name,p.progress,100,'var(--text)')).join(''):'<p style="color:var(--text3);margin-top:10px">Add phases to see progress insights.</p>'}
+            <p style="font-size:12px;color:var(--text3);margin-top:12px">Estimate: ${hoursEstimated.toFixed(1)} h · Logged: ${hoursLogged.toFixed(1)} h. Metrics are calculated from this project’s saved records.</p></div>`;
+        }
+
+        function renderDevelopmentCalendar(area) {
+            const today = new Date(); today.setHours(0,0,0,0);
+            const tasks = state.tasks.filter(t=>t.dueDate || t.deadline || t.targetDate)
+                .map(t=>({...t, calendarDate:t.dueDate||t.deadline||t.targetDate}))
+                .sort((a,b)=>String(a.calendarDate).localeCompare(String(b.calendarDate)));
+            const dateStr = d => d.toISOString().slice(0,10);
+            const overdue = tasks.filter(t=>new Date(t.calendarDate+'T00:00:00')<today && t.status!=='done');
+            area.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px"><h2 style="font-size:18px">Development Calendar</h2><button class="btn btn-primary" onclick="gfCalendarSetDate()">Set Task Due Date</button></div>
+            <div class="card" style="margin-bottom:12px"><div class="card-title">Date planning</div><p style="font-size:12px;color:var(--text2);margin-top:8px">Assign due dates to tasks to organize your development schedule. Calendar uses task dates and keeps all entries inside the current project.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><span class="badge badge-danger">Overdue: ${overdue.length}</span><span class="badge badge-info">Scheduled: ${tasks.length}</span><span class="badge badge-success">Completed scheduled: ${tasks.filter(t=>t.status==='done').length}</span></div></div>
+            ${tasks.length?`<div class="card"><div class="card-title">Upcoming and past tasks</div>${tasks.map(t=>{const dt=new Date(t.calendarDate+'T00:00:00');const late=dt<today&&t.status!=='done';return `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap"><div style="min-width:105px;font-weight:600;color:${late?'var(--danger)':'var(--text2)'}">${escHtml(t.calendarDate)}</div><div style="flex:1;min-width:150px"><b>${escHtml(t.name||t.title||'Untitled task')}</b><div style="font-size:11px;color:var(--text3)">${escHtml(t.status||'planned')}${late?' · OVERDUE':''}</div></div><button class="btn btn-secondary btn-sm" onclick="gfCalendarSetDate('${t.id}')">Change date</button></div>`}).join('')}</div>`:'<div class="card"><p style="color:var(--text3)">No tasks have due dates yet. Use “Set Task Due Date” to schedule one.</p></div>'}`;
+        }
+        function gfCalendarSetDate(taskId) {
+            const candidates=state.tasks;
+            if(!candidates.length){showToast('Create a task first','warning');return;}
+            let task=taskId?getById('tasks',taskId):null;
+            if(!task){const names=candidates.map((t,i)=>`${i+1}. ${t.name||t.title||'Untitled task'}`).join('\\n');const pick=prompt('Enter task number to schedule:\\n'+names);const index=Number(pick)-1;if(!Number.isInteger(index)||index<0||index>=candidates.length)return;task=candidates[index];}
+            const existing=task.dueDate||task.deadline||task.targetDate||'';
+            const date=prompt('Due date (YYYY-MM-DD):',existing);
+            if(date===null)return;
+            if(date && !/^\\d{4}-\\d{2}-\\d{2}$/.test(date)){showToast('Use date format YYYY-MM-DD','error');return;}
+            task.dueDate=date;saveState();renderDevelopmentCalendar(document.getElementById('contentArea'));
+            showToast(date?'Task scheduled':'Due date cleared','success');
+        }
+
         function init() {
             state=normalizeState(state);
             if (!projectLibrary.projects.some(p=>p.id===currentProjectId)) { currentProjectId=projectLibrary.projects[0].id; state=normalizeState(projectLibrary.projects[0].snapshot); }
